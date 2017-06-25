@@ -21,6 +21,8 @@ class UserTabelSeeder extends Seeder
         $user->email = 'aufree@estgroupe.com';
         $user->password = bcrypt('password');
         $user->is_admin = true;
+        $user->is_admin = true;
+        $user->activated = true;
         $user->save();
 
     }
