@@ -3,7 +3,8 @@
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class UserTabelSeeder extends Seeder
+
+class UsersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,7 +13,7 @@ class UserTabelSeeder extends Seeder
      */
     public function run()
     {
-
+        //
         $users = factory(User::class)->times(50)->make();
         User::insert($users->toArray());
 
@@ -20,10 +21,6 @@ class UserTabelSeeder extends Seeder
         $user->name = 'Aufree';
         $user->email = 'aufree@estgroupe.com';
         $user->password = bcrypt('password');
-        $user->is_admin = true;
-        $user->is_admin = true;
-        $user->activated = true;
         $user->save();
-
     }
 }

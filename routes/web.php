@@ -31,6 +31,13 @@ Route::delete('logout', 'SessionsController@destroy')->name('logout');
 Route::get('/users/{id}/edit', 'UsersController@edit')->name('users.edit');
 Route::get('/users','UsersController@index')->name('users.index');
 
+Route::resource('users', 'UsersController');
+Route::get('/users/{user_id}', 'UsersController@show')->name('users.show');
+
 //用户激活
 Route::get('signup/confirm/{token}','UsersController@confirmEmail')->name('confirm_email');
+
+
+//微博
+Route::resource('statuses','StatusesController',['only'=>['store','destroy']]);
 

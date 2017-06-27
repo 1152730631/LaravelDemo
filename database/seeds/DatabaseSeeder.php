@@ -13,8 +13,13 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UsersTableSeeder::class);
 
+        //\Illuminate\Database\Eloquent\Model::unguard();
+        //$this->call('UserTabelSeeder');
+        //\Illuminate\Database\Eloquent\Model::reguard();
+
         \Illuminate\Database\Eloquent\Model::unguard();
-        $this->call('UserTabelSeeder');
+        $this->call('UsersTableSeeder');
+        $this->call('StatusesTableSeeder');
         \Illuminate\Database\Eloquent\Model::reguard();
 
     }
