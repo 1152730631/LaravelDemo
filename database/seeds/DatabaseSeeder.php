@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         \Illuminate\Database\Eloquent\Model::unguard();
         $this->call('UsersTableSeeder');
         $this->call('StatusesTableSeeder');
+        $this->call('FollowersTableSeeder');
         \Illuminate\Database\Eloquent\Model::reguard();
 
     }

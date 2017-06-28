@@ -136,6 +136,30 @@ class UsersController extends Controller
         return redirect()->route('users.show',[$user]);
     }
 
+    /*
+     * 显示关注人列表
+     */
+    public function followings($id){
+        //通过主键获取 当前模型类
+        $user = User::findOrFail($id);
+        //通过UserModels 中定义followings方法获取 关注人列表
+        $users = $user->followings()->paginate(30);
+        $title = '关注的人';
+        return view('users.show_follow',compact('users','title'));
+
+    }
+
+    /**
+     * 显示粉丝列表
+     */
+    public function followers($id){
+        //通过主键获取 当前模型类
+        $user = User::findOrFail($id);
+        $users = $user->followers()->paginate(30);
+        $title = '粉丝';
+        return view('users.show_follow',compact('users','title'));
+    }
+
 
 
 }

@@ -41,3 +41,11 @@ Route::get('signup/confirm/{token}','UsersController@confirmEmail')->name('confi
 //微博
 Route::resource('statuses','StatusesController',['only'=>['store','destroy']]);
 
+//关注的人 粉丝
+Route::get('/users/{id}/followings','UsersController@followings')->name('users.followings');
+Route::get('/users/{id}/followers','UsersController@followers')->name('users.followers');
+//关注用户
+Route::post('/users/followers/{id}', 'FollowersController@store')->name('followers.store');
+//取消关注
+Route::delete('/users/followers/{id}','FollowersController@destroy')->name('followers.destroy');
+

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -50,8 +51,60 @@ class User extends Authenticatable
      * 当前用户发布过的所有微博从数据库中取出
      */
     public function feed(){
-        return $this->statuses()->orderBy('created_at','desc');
+
+        $user_ids = Auth::user()->followings->pluck('id')->toArray();
+        array_push($user_ids,Auth::user()->id);
+        return Status::whereIn('user_id',$user_ids)->with('user')
+            ->orderBy('created_at','desc');
+
+        //return $this->statuses()->orderBy();
     }
 
+    /*
+     * 获取粉丝关系列表
+     */
+    public function followers(){
+        //return $this->belongsToMany(User::class,'followers', 'user_id', 'follower_id');
+          return $this->belongsToMany(User::Class,'followers', 'user_id', 'follower_id');
+    }
+
+    /*
+     * 获取用户关注人列表
+     */
+    public function followings(){
+        //return $this->belongsToMany(User::class,'followers', 'follower_id', 'user_id');
+          return $this->belongsToMany(User::Class,'followers', 'follower_id', 'user_id');
+    }
+
+    /*
+     * 关注方法
+     */
+    public function follow($user_ids){
+        if(!is_array($user_ids)){
+            $user_ids = compact('user_ids');
+        }
+        $this->followings()->sync($user_ids,false);
+    }
+
+    /**
+     * 取消关注
+     * @param $user_ids
+     */
+    public function unfollow($user_ids){
+        if(!is_array($user_ids)){
+            $user_ids = compact('user_ids');
+        }
+        $this->followings()->detach($user_ids);
+    }
+
+    /**
+     * 判断是否关注$user_id用户
+     * @param string $user_id
+     * @return mixed
+     */
+    public function isFollowing($user_id)
+    {
+        return $this->followings->contains($user_id);
+    }
 
 }
